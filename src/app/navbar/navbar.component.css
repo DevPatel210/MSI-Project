@@ -1,0 +1,11 @@
+.logo {
+  max-width: 350px;
+  margin-left: 2%;
+}
+.page-header {
+  position: relative;
+  min-width: 100vh;
+}
+.spacer {
+  flex: 1 1 auto;
+}

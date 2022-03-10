@@ -1,0 +1,56 @@
+<div class="login-page">
+  <mat-card>
+    <mat-card-content>
+      <div>
+        <img src="../../assets/images/MSI_logo.png" class="login-logo" />
+        <h2>Login</h2>
+      </div>
+      <form (ngSubmit)="onSubmit()" name="loginform" [formGroup]="loginForm">
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Email</mat-label>
+          <mat-icon matPrefix style="margin-right: 5px">people</mat-icon>
+          <input type="email" matInput formControlName="email" />
+          <mat-error
+            *ngIf="getError('email', 'email') && !getError('email', 'required')"
+          >
+            Please enter a valid email address
+          </mat-error>
+          <mat-error *ngIf="getError('email', 'required')">
+            Email is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="outline" color="#2c306f">
+          <mat-label>Password</mat-label>
+          <mat-icon matPrefix style="margin-right: 5px">vpn_key </mat-icon>
+          <input
+            type="password"
+            matInput
+            formControlName="password"
+            minlength="6"
+          />
+          <mat-hint>Minimum length is 6</mat-hint>
+          <mat-error *ngIf="getError('password', 'minlength')">
+            Please enter a valid password
+          </mat-error>
+          <mat-error *ngIf="getError('password', 'required')">
+            Password is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <br />
+        <button
+          mat-raised-button
+          color="#ffd048"
+          type="submit"
+          [disabled]="!loginForm.valid"
+        >
+          Login
+        </button>
+      </form>
+
+      <div class="error" *ngIf="loginError && loginError.length > 0">
+        <span>{{ loginError }}</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
