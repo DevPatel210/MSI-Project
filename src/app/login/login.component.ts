@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup,Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { CustomValidator } from '../shared/validation';
 
 @Component({
   selector: 'app-login',
@@ -15,11 +16,12 @@ export class LoginComponent implements OnInit {
   constructor(private fb:FormBuilder, public router:Router,private _auth:AuthService) {
     this.loginForm = this.fb.group({
       email:["",[Validators.required,Validators.email]],
-      password:["",Validators.required]
+      password:["",[Validators.required,CustomValidator.passwordValidator]] // minlength is set in the html
     })
   }
 
   public getError = (controlName: string, errorName: string) =>{
+    // console.log(this.loginForm.controls[controlName].hasError(errorName));
     return this.loginForm.controls[controlName].hasError(errorName);
   }
 
