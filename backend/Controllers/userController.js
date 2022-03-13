@@ -39,7 +39,7 @@ class User {
             });
             res.status(200).send({ message: "Login Successful", token: token });
           } else {
-            res.status(400).json({ message: "Email or Password is wrong" });
+            res.status(401).json({ message: "Email or Password is wrong" });
           }
         }
       }
@@ -60,6 +60,39 @@ class User {
       return res.status(401).json({ message: "No token found" });
     }
   }
+  register = (req, res) => {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      res.status(401).send("Data is not present");
+    }
+    client.query(
+      `select * from users where email = $1`,
+      [email],
+      (err, resp) => {
+        // console.log(resp.rows);
+        if (err) {
+          res.status(400).send("error in db");
+        } else if (resp.rows.length >= 1) {
+          res.status(404).send("user already exists");
+        }
+      }
+    );
+    const hashed_password = bcrypt.hashSync(password, 12);
+    client.query(
+      `insert into users (email,password) values($1,$2)`,
+      [email, hashed_password],
+      (err, resp) => {
+        // console.log(resp);
+        if (err) {
+          console.log(err);
+          res.status(400).send("Can't register. Please try again.");
+        } else {
+          console.log("user inserted");
+          res.status(200).send("Registration Successfull");
+        }
+      }
+    );
+  };
 }
 
 module.exports = User;

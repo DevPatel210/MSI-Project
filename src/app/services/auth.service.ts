@@ -11,4 +11,19 @@ export class AuthService {
   loginUser(user:{}){
     return this.http.post<any>(this.loginURL,user);
   }
+
+  logout(){
+    sessionStorage.removeItem("token");
+  }
+
+  isLoggedIn(){
+    return !!sessionStorage.getItem("token");
+  }
+
+  setToken(token:string){
+    sessionStorage.setItem("token",token);
+  }
+  getToken(){
+    return sessionStorage.getItem("token");
+  }
 }

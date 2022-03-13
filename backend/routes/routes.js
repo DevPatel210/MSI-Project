@@ -15,4 +15,8 @@ router.post("/verifyToken", (req, res) => {
   userController.verifyToken(req, res);
 });
 
+router.post("/register", (req, res) => {
+  userController.register(req, res);
+});
+
 module.exports = router;

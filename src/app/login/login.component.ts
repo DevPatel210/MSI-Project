@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
 
   loginForm : FormGroup
   loginError:string=""
-  constructor(private fb:FormBuilder, public router:Router,private _auth:AuthService) {
+  constructor(private fb:FormBuilder, public router:Router,private _authService:AuthService) {
     this.loginForm = this.fb.group({
       email:["",[Validators.required,Validators.email]],
       password:["",[Validators.required,CustomValidator.passwordValidator]] // minlength is set in the html
@@ -30,10 +30,11 @@ export class LoginComponent implements OnInit {
 
   onSubmit(){
     const {email,password} = this.loginForm.value;
-    this._auth.loginUser({email,password}).subscribe(
+    this._authService.loginUser({email,password}).subscribe(
       res => {
-        console.log(res.message);
+        // console.log(res.message+"\n"+res.token);
         this.loginError="";
+        this._authService.setToken(res.token);
         this.router.navigate(["/dashboard"]);
       },
       err =>{ 
