@@ -2,6 +2,7 @@ require("dotenv").config();
 const bcrypt = require("bcrypt");
 const client = require("../database/db");
 const jwt = require("jsonwebtoken");
+const { nextTick } = require("process");
 const privateKey = process.env.PRIVATE_KEY;
 
 // Roles in this project
@@ -46,19 +47,17 @@ class User {
     );
   }
 
-  verifyToken(req, res) {
-    let token = req.body.token;
-    if (token) {
-      jwt.verify(token, privateKey, (err, data) => {
-        if (err) {
-          return res.status(401).json({ message: err });
-        } else {
-          return res.status(200).json({ username: data.username });
-        }
-      });
-    } else {
-      return res.status(401).json({ message: "No token found" });
+  verifyToken(req, res, next) {
+    if (!req.headers.authorization) {
+      return res.status(401).json({ message: "Unauthorized Access" });
     }
+    let token = req.headers.authorization.split(" ")[1];
+    if (token === "null") {
+      return res.status(401).json({ message: "Unauthorized Access" });
+    }
+    let payload = jwt.verify(token, privateKey);
+    req.email = payload.subject;
+    next();
   }
   register = (req, res) => {
     const { email, password } = req.body;
