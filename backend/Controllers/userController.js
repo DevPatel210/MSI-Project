@@ -35,7 +35,7 @@ class User {
           var isValid = bcrypt.compareSync(password, userData.password);
           if (isValid) {
             // after validation generate a JWT token
-            let token = jwt.sign({ username: userData.email }, privateKey, {
+            let token = jwt.sign({ email: userData.email }, privateKey, {
               expiresIn: "3h",
             });
             res.status(200).send({ message: "Login Successful", token: token });
