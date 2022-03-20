@@ -1,2 +1,16 @@
-<app-navbar></app-navbar>
-<p>dashboard works!</p>
+<div class="dashboard">
+  <!-- <app-navbar></app-navbar> -->
+  <div class="sidenav">
+    <img src="../../assets/images/MSI_Ensignia.png" alt="MSI_Logo" />
+    <p>Users</p>
+    <a><mat-icon>add_circle_outline</mat-icon>Add new user</a>
+    <a><mat-icon>upload_file</mat-icon>Bulk Import</a>
+    <p>Project Mapping</p>
+    <a><mat-icon>table_chart</mat-icon>Projects List</a>
+    <a><mat-icon>add_circle_outline</mat-icon>Add new project</a>
+    <a><mat-icon>upload_file</mat-icon>Bulk Import</a>
+
+    <button (click)="logout()"><mat-icon>logout</mat-icon>Logout</button>
+  </div>
+  <div class="content"></div>
+</div>

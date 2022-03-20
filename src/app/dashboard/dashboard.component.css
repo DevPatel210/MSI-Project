@@ -1,0 +1,80 @@
+.dashboard {
+  width: 100vw;
+  height: 100vh;
+  background-color: #f1f2f5;
+  font-family: "M PLUS Rounded 1c", sans-serif;
+  display: flex;
+  background-image: url("../../assets/images/dashboard_bg.png");
+  background-size: cover;
+}
+.sidenav {
+  height: 94%;
+  width: 250px;
+  background-color: rgba(255, 255, 255, 0.8);
+  overflow-x: hidden;
+  padding-top: 20px;
+  margin: 10px;
+  border-radius: 8px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+.sidenav button {
+  border: none;
+  background-color: rgba(255, 255, 255, 0);
+  position: absolute;
+  bottom: 23px;
+  width: 220px;
+  text-align: start;
+}
+.sidenav a,
+.sidenav button {
+  margin: 2px 15px;
+  padding: 10px 10px;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: rgb(61, 61, 61);
+  display: block;
+  border-radius: 8px;
+}
+.sidenav a mat-icon,
+.sidenav button mat-icon {
+  vertical-align: middle;
+  margin-right: 7px;
+  font-size: 20px;
+}
+.sidenav a:hover,
+.sidenav button:hover {
+  color: white;
+  background-color: #0079c1;
+}
+
+.sidenav p {
+  font-weight: 500;
+  font-size: 14px;
+  padding: 0px 26px;
+  color: #0079c1;
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+.sidenav img {
+  margin-left: 60.5px;
+  margin-bottom: 15px;
+  width: 50%;
+  height: auto;
+}
+
+.spacer {
+  flex: 0 0 auto;
+}
+
+.content {
+  height: 94%;
+  flex-grow: 1;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding-top: 20px;
+  margin: 10px 10px 10px 0px;
+  border-radius: 8px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
