@@ -2,13 +2,12 @@
   width: 100vw;
   height: 100vh;
   background-color: #f1f2f5;
-  font-family: "M PLUS Rounded 1c", sans-serif;
   display: flex;
   background-image: url("../../assets/images/dashboard_bg.png");
   background-size: cover;
 }
 .sidenav {
-  height: 94%;
+  height: 97%;
   width: 250px;
   background-color: rgba(255, 255, 255, 0.8);
   overflow-x: hidden;
@@ -22,7 +21,7 @@
   border: none;
   background-color: rgba(255, 255, 255, 0);
   position: absolute;
-  bottom: 23px;
+  bottom: 20px;
   width: 220px;
   text-align: start;
 }
@@ -64,17 +63,36 @@
   height: auto;
 }
 
-.spacer {
-  flex: 0 0 auto;
-}
-
 .content {
-  height: 94%;
+  height: 97%;
   flex-grow: 1;
   background-color: rgba(255, 255, 255, 0.8);
-  padding-top: 20px;
+  padding: 20px;
   margin: 10px 10px 10px 0px;
   border-radius: 8px;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
     rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  /* overflow: auto; */
+}
+::-webkit-scrollbar {
+  width: 20px;
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #d6dee1;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #d6dee1;
+  border-radius: 20px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #d6dee1;
+  border-radius: 20px;
+  border: 6px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #a8bbbf;
 }

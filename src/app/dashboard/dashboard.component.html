@@ -3,14 +3,24 @@
   <div class="sidenav">
     <img src="../../assets/images/MSI_Ensignia.png" alt="MSI_Logo" />
     <p>Users</p>
-    <a><mat-icon>add_circle_outline</mat-icon>Add new user</a>
-    <a><mat-icon>upload_file</mat-icon>Bulk Import</a>
+    <a routerLink="/dashboard/addSingleUser"
+      ><mat-icon>add_circle_outline</mat-icon>Add new user</a
+    >
+    <a routerLink="/dashboard/addBulkUsers"
+      ><mat-icon>upload_file</mat-icon>Bulk Import</a
+    >
     <p>Project Mapping</p>
-    <a><mat-icon>table_chart</mat-icon>Projects List</a>
-    <a><mat-icon>add_circle_outline</mat-icon>Add new project</a>
-    <a><mat-icon>upload_file</mat-icon>Bulk Import</a>
+    <a routerLink="/dashboard/projects"
+      ><mat-icon>table_chart</mat-icon>Projects List</a
+    >
+    <a routerLink="/dashboard/addSingleProject"
+      ><mat-icon>add_circle_outline</mat-icon>Add new project</a
+    >
+    <a routerLink="/dashboard/addBulkProjects"
+      ><mat-icon>upload_file</mat-icon>Bulk Import</a
+    >
 
     <button (click)="logout()"><mat-icon>logout</mat-icon>Logout</button>
   </div>
-  <div class="content"></div>
+  <div class="content"><router-outlet></router-outlet></div>
 </div>

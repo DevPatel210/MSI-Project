@@ -10,16 +10,15 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import { NavbarComponent } from './navbar/navbar.component';
 import {MatMenuModule} from '@angular/material/menu';
 import { AuthGuard } from './guards/auth.guard';
 import { AuthService } from './services/auth.service';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     Components,
-    NavbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,7 +31,8 @@ import { AuthService } from './services/auth.service';
     MatInputModule,
     MatButtonModule,
     MatToolbarModule,
-    MatMenuModule
+    MatMenuModule,
+    DashboardModule
   ],
   providers: [AuthGuard,AuthService,],
   bootstrap: [AppComponent]
