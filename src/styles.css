@@ -4,3 +4,12 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.success.mat-snack-bar-container{
+  background-color: #5bc9b7;
+  color:black;
+}
+.error.mat-snack-bar-container{
+  background-color: #ef5653;
+  /* color:black; */
+}

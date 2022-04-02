@@ -22,12 +22,27 @@ h1 {
 }
 
 .container form {
-  margin-top: 20px;
+  margin-top: 13px;
 }
 
 form p {
+  margin-top: 2%;
   margin-left: 5px;
   font-weight: 500;
   color: #0079c1;
   font-size: medium;
+}
+
+img{
+  max-width: 45%;
+  padding-left:0%;
+}
+
+form button{
+  margin-left: 35%;
+  margin-right: auto;
+  margin-bottom: 3%;
+  background-color: #ffd048;
+  width: 25%;
+  min-width: 85px;
 }

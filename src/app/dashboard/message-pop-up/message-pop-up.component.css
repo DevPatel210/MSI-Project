@@ -1,0 +1,9 @@
+.col-2{
+    margin:auto;
+}
+.col-2 mat-icon{
+    cursor: pointer;
+}
+.col-10 div{
+    margin-left:10px;
+}

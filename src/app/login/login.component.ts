@@ -21,7 +21,6 @@ export class LoginComponent implements OnInit {
   }
 
   public getError = (controlName: string, errorName: string) =>{
-    // console.log(this.loginForm.controls[controlName].hasError(errorName));
     return this.loginForm.controls[controlName].hasError(errorName);
   }
 
