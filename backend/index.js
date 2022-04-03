@@ -2,6 +2,7 @@ var express = require("express");
 var app = express();
 const cors = require("cors");
 var router = require("./routes/routes");
+var userRouter = require("./routes/userRoutes");
 var corsOptions = {
   origin: "http://localhost:4200",
   optionsSuccessStatus: 200, // For legacy browser support
@@ -17,6 +18,7 @@ app.use(
 app.use(express.json());
 
 app.use("/", router);
+app.use("/user", userRouter);
 
 app.listen(3000, () => {
   console.log("server started");

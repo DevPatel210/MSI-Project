@@ -14,10 +14,21 @@
       <mat-form-field appearance="outline" class="col-11">
         <mat-label>Name</mat-label>
         <input matInput type="text" formControlName="name" />
+        <mat-error *ngIf="getError('name', 'required')"
+          >Name is <strong>required</strong></mat-error
+        >
       </mat-form-field>
       <mat-form-field appearance="outline" class="col-11">
         <mat-label>Email</mat-label>
         <input matInput type="email" formControlName="email" />
+        <mat-error
+          *ngIf="getError('email', 'email') && !getError('email', 'required')"
+        >
+          Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="getError('email', 'required')">
+          Email is <strong>required</strong>
+        </mat-error>
       </mat-form-field>
 
       <br />
@@ -27,6 +38,9 @@
       <mat-form-field appearance="outline" class="col-11">
         <mat-label>Employee ID</mat-label>
         <input matInput type="text" formControlName="employeeID" />
+        <mat-error *ngIf="getError('name', 'required')"
+          >Employee ID is <strong>required</strong></mat-error
+        >
       </mat-form-field>
       <mat-form-field appearance="outline" class="col-11">
         <mat-label>Role</mat-label>
@@ -35,7 +49,9 @@
             role
           }}</mat-option>
         </mat-select>
-        <mat-error>Please select the user role</mat-error>
+        <mat-error *ngIf="getError('role', 'required')"
+          >Please select a user role</mat-error
+        >
       </mat-form-field>
 
       <br />
@@ -43,10 +59,32 @@
 
       <mat-form-field appearance="outline" class="col-11">
         <mat-label>Password</mat-label>
-        <input matInput type="password" formControlName="password" />
+        <input
+          matInput
+          type="password"
+          formControlName="password"
+          minlength="6"
+        />
+        <mat-error *ngIf="getError('password', 'minlength')">
+          Minimum password length required is 6
+        </mat-error>
+        <mat-error
+          *ngIf="
+            !getError('password', 'required') &&
+            getError('password', 'invalidPassword')
+          "
+        >
+          Password must contain atleast one <strong>uppercase</strong>, one
+          <strong>lowercase</strong> and one <strong>number</strong>.
+        </mat-error>
+        <mat-error *ngIf="getError('password', 'required')">
+          Password is <strong>required</strong>
+        </mat-error>
       </mat-form-field>
-      <!-- [disabled]="!addUserForm.valid" -->
-      <button mat-raised-button type="submit">Add User</button>
+
+      <button mat-raised-button type="submit" [disabled]="!addUserForm.valid">
+        Add User
+      </button>
     </form>
     <img src="../../../assets/images/Single User.jpg" alt="" />
   </div>
