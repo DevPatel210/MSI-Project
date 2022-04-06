@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserManagementService {
-  private addSingleUserURL = "http://localhost:3000/addUser/single";
+  private addSingleUserURL = 'http://localhost:3000/user/add-single';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  addSingleUser(user:{}){
-    return this.http.post<any>(this.addSingleUserURL,user);
+  addSingleUser(user: {}) {
+    return this.http.post<any>(this.addSingleUserURL, user);
   }
 }

@@ -2,22 +2,21 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProjectListComponent } from './project-list/project-list.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import {MatTableModule} from '@angular/material/table';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatButtonModule} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { NewUserComponent } from './new-user/new-user.component';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatSelectModule} from '@angular/material/select';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MessagePopUpComponent } from './message-pop-up/message-pop-up.component';
+import { AuthService } from '../services/auth.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptorService } from '../services/token-interceptor.service';
 @NgModule({
-  declarations: [
-    ProjectListComponent,
-    NewUserComponent,
-    MessagePopUpComponent
-  ],
+  declarations: [ProjectListComponent, NewUserComponent, MessagePopUpComponent],
   imports: [
     CommonModule,
     MatTableModule,
@@ -28,7 +27,15 @@ import { MessagePopUpComponent } from './message-pop-up/message-pop-up.component
     MatInputModule,
     MatSelectModule,
     ReactiveFormsModule,
-    MatSnackBarModule
-  ]
+    MatSnackBarModule,
+  ],
+  providers: [
+    AuthService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true,
+    },
+  ],
 })
-export class DashboardModule { }
+export class DashboardModule {}

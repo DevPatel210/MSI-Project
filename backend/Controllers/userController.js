@@ -60,47 +60,49 @@ class User {
     next();
   }
 
-  addSingleUser = (req, res) => {
+  addSingleUser = async (req, res) => {
     const { name, email, employeeID, role, password } = req.body;
-    console.log("Step 1");
     if (!name || !email || !password || !employeeID || !role) {
-      return res.status(401).send("Data is missing");
-    }
-    console.log("Step 2");
-    if (!ROLE.includes(role)) {
-      return res.status(401).send("Invalid role");
-    }
-    console.log("Step 3");
-    client.query(
-      `select * from users where email = $1`,
-      [email],
-      (err, resp) => {
-        // console.log(resp.rows);
-        if (err) {
-          return res.status(400).send("Error in DB");
-        } else if (resp.rows.length >= 1) {
-          return res.status(404).send("User already exists");
-        }
-        console.log("Step 4");
-      }
-    );
-    console.log("Step 5");
-    const hashed_password = bcrypt.hashSync(password, 12);
-    client.query(
-      `insert into users (name,email,employeeID,role,password) values($1,$2,$3,$4,$5)`,
-      [name, email, employeeID, role, hashed_password],
-      (err, resp) => {
-        // console.log(resp);
-        if (err) {
-          console.log(err);
-          return res.status(400).send("Couldn't register. Please try again.");
+      return res.status(401).json({ message: "Data is missing" });
+    } else if (!ROLE.includes(role)) {
+      return res.status(401).json({ message: "Invalid role" });
+    } else {
+      try {
+        const users = await client.query(
+          `select * from users where email = $1`,
+          [email]
+        );
+
+        if (users.rows.length != 0) {
+          return res.status(400).json({ message: "User already exists" });
         } else {
-          console.log("Step 6");
-          console.log("user inserted");
-          return res.status(200).send("User Added Successfull");
+          const hashed_password = bcrypt.hashSync(password, 12);
+          const insert = client.query(
+            `insert into users (name,email,employeeID,role,password) values($1,$2,$3,$4,$5)`,
+            [name, email, employeeID, role, hashed_password],
+            (err, resp) => {
+              // console.log(resp);
+              if (err) {
+                console.log(err);
+                return res
+                  .status(500)
+                  .json({ message: "Couldn't register. Please try again." });
+              } else {
+                console.log("user inserted");
+                return res
+                  .status(200)
+                  .json({ message: "User Added Successfull" });
+              }
+            }
+          );
         }
+      } catch (err) {
+        console.log(err);
+        res
+          .status(500)
+          .json({ message: "Database error while adding new user" });
       }
-    );
+    }
   };
 }
 
