@@ -52,6 +52,7 @@ export class NewUserComponent implements OnInit {
             res.message,
             'success'
           );
+          this.addUserForm.reset();
         },
         (err) => {
           console.log(err.error.message);

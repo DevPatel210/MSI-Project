@@ -10,6 +10,8 @@ const ROLE = ["admin", "manager", "employee"];
 
 class User {
   constructor() {}
+
+  // ------------------------- Login -----------------------
   login(req, res) {
     // check for data is present
     if (!req.body) res.status(400).json({ message: "Data not present" });
@@ -31,12 +33,21 @@ class User {
           var isValid = bcrypt.compareSync(password, userData.password);
           if (isValid) {
             // after validation generate a JWT token
-            let token = jwt.sign({ email: userData.email }, privateKey, {
-              expiresIn: "3h",
+            let token = jwt.sign(
+              {
+                email: userData.email,
+                id: userData.employeeID,
+                role: userData.role,
+              },
+              privateKey,
+              {
+                expiresIn: "24h",
+              }
+            );
+            return res.status(200).send({
+              message: "Login Successful",
+              token: token,
             });
-            return res
-              .status(200)
-              .send({ message: "Login Successful", token: token });
           } else {
             return res
               .status(401)
@@ -47,7 +58,8 @@ class User {
     );
   }
 
-  verifyToken(req, res, next) {
+  // ---------------------Authentication MiddleWares -----------------------
+  verifyAdminToken(req, res, next) {
     if (!req.headers.authorization) {
       return res.status(401).json({ message: "Unauthorized Access" });
     }
@@ -55,11 +67,44 @@ class User {
     if (token === "null") {
       return res.status(401).json({ message: "Unauthorized Access" });
     }
-    let payload = jwt.verify(token, privateKey);
-    req.email = payload.subject;
+    let { role } = jwt.verify(token, privateKey);
+    if (role != "admin") {
+      return res.status(401).json({ message: "Unauthorized Access" });
+    }
     next();
   }
 
+  verifyManagerToken(req, res, next) {
+    if (!req.headers.authorization) {
+      return res.status(401).json({ message: "Unauthorized Access" });
+    }
+    let token = req.headers.authorization.split(" ")[1];
+    if (token === "null") {
+      return res.status(401).json({ message: "Unauthorized Access" });
+    }
+    let { role } = jwt.verify(token, privateKey);
+    if (role != "admin" || role != "manager") {
+      return res.status(401).json({ message: "Unauthorized Access" });
+    }
+    next();
+  }
+
+  verifyEmployeeToken(req, res, next) {
+    if (!req.headers.authorization) {
+      return res.status(401).json({ message: "Unauthorized Access" });
+    }
+    let token = req.headers.authorization.split(" ")[1];
+    if (token === "null") {
+      return res.status(401).json({ message: "Unauthorized Access" });
+    }
+    let { role } = jwt.verify(token, privateKey);
+    if (role != "admin" || role != "manager" || role != "employee") {
+      return res.status(401).json({ message: "Unauthorized Access" });
+    }
+    next();
+  }
+
+  // ------------------------- Add Single User -----------------------
   addSingleUser = async (req, res) => {
     const { name, email, employeeID, role, password } = req.body;
     if (!name || !email || !password || !employeeID || !role) {

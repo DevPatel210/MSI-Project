@@ -7,7 +7,7 @@ userRouter.get("/", (req, res) => {
   console.log("API Works");
 });
 
-userRouter.post("/add-single", userController.verifyToken, (req, res) => {
+userRouter.post("/add-single", userController.verifyAdminToken, (req, res) => {
   userController.addSingleUser(req, res);
 });
 
