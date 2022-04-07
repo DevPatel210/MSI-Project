@@ -7,6 +7,10 @@ userRouter.get("/", (req, res) => {
   console.log("API Works");
 });
 
+userRouter.get("/get", userController.verifyAdminToken, (req, res) => {
+  userController.getUsers(req, res);
+});
+
 userRouter.post("/add-single", userController.verifyAdminToken, (req, res) => {
   userController.addSingleUser(req, res);
 });

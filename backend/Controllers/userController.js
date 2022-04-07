@@ -150,6 +150,22 @@ class User {
       }
     }
   };
+
+  // ------------------------- Get All User -----------------------
+  getUsers(req, res) {
+    client.query(
+      `select name,email,employeeid,role from users`,
+      (err, resp) => {
+        if (err) {
+          return res.status(400).json({ message: "Error in DB" });
+        } else {
+          return res
+            .status(200)
+            .json({ message: "Data sent successfully", data: resp.rows });
+        }
+      }
+    );
+  }
 }
 
 module.exports = User;

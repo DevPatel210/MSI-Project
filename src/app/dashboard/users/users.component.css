@@ -1,0 +1,27 @@
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+h1 {
+  color: #0079c1;
+  font-weight: 450;
+  align-self: center;
+  margin-bottom: 0px;
+}
+table {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.table-container {
+  width: 100%;
+  overflow: auto;
+  max-height: 90%;
+}
+.mat-form-field {
+  margin-left: 5px;
+  font-size: 14px;
+  width: 98%;
+}

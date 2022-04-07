@@ -11,12 +11,20 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 import { MessagePopUpComponent } from './message-pop-up/message-pop-up.component';
 import { AuthService } from '../services/auth.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptorService } from '../services/token-interceptor.service';
+import { UsersComponent } from './users/users.component';
 @NgModule({
-  declarations: [ProjectListComponent, NewUserComponent, MessagePopUpComponent],
+  declarations: [
+    ProjectListComponent,
+    NewUserComponent,
+    MessagePopUpComponent,
+    UsersComponent,
+  ],
   imports: [
     CommonModule,
     MatTableModule,
@@ -28,6 +36,8 @@ import { TokenInterceptorService } from '../services/token-interceptor.service';
     MatSelectModule,
     ReactiveFormsModule,
     MatSnackBarModule,
+    MatPaginatorModule,
+    MatSortModule,
   ],
   providers: [
     AuthService,
