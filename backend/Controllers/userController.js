@@ -47,6 +47,7 @@ class User {
             return res.status(200).send({
               message: "Login Successful",
               token: token,
+              role: userData.role,
             });
           } else {
             return res

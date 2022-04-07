@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit {
         // console.log(res.message+"\n"+res.token);
         this.loginError = '';
         this._authService.setToken(res.token);
+        this._authService.setRole(res.role);
         this.router.navigate(['/dashboard']);
       },
       (err) => {

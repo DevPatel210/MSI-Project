@@ -2,21 +2,27 @@
   <!-- <app-navbar></app-navbar> -->
   <div class="sidenav">
     <img src="../../assets/images/MSI_Ensignia.png" alt="MSI_Logo" />
-    <p>Users</p>
-    <a routerLink="/dashboard/addSingleUser"
-      ><mat-icon>add_circle_outline</mat-icon>Add new user</a
-    >
-    <a routerLink="/dashboard/addBulkUsers"
-      ><mat-icon>upload_file</mat-icon>Bulk Import</a
-    >
+    <div *ngIf="this.role == 'admin'">
+      <p>Users</p>
+      <a routerLink="/dashboard/addSingleUser"
+        ><mat-icon>add_circle_outline</mat-icon>Add new user</a
+      >
+      <a routerLink="/dashboard/addBulkUsers"
+        ><mat-icon>upload_file</mat-icon>Bulk Import</a
+      >
+    </div>
     <p>Project Mapping</p>
     <a routerLink="/dashboard/projects"
       ><mat-icon>table_chart</mat-icon>Projects List</a
     >
-    <a routerLink="/dashboard/addSingleProject"
+    <a
+      routerLink="/dashboard/addSingleProject"
+      *ngIf="this.role == 'admin' || this.role == 'manager'"
       ><mat-icon>add_circle_outline</mat-icon>Add new project</a
     >
-    <a routerLink="/dashboard/addBulkProjects"
+    <a
+      routerLink="/dashboard/addBulkProjects"
+      *ngIf="this.role == 'admin' || this.role == 'manager'"
       ><mat-icon>upload_file</mat-icon>Bulk Import</a
     >
 
