@@ -4,13 +4,13 @@
     <img src="../../assets/images/MSI_Ensignia.png" alt="MSI_Logo" />
     <div *ngIf="this.role == 'admin'">
       <p>Users</p>
+      <a routerLink="/dashboard/users"><mat-icon>people</mat-icon>Users List</a>
       <a routerLink="/dashboard/addSingleUser"
         ><mat-icon>add_circle_outline</mat-icon>Add new user</a
       >
       <a routerLink="/dashboard/addBulkUsers"
         ><mat-icon>upload_file</mat-icon>Bulk Import</a
       >
-      <a routerLink="/dashboard/users"><mat-icon>people</mat-icon>Users List</a>
     </div>
     <p>Project Mapping</p>
     <a routerLink="/dashboard/projects"

@@ -70,6 +70,13 @@
       <td mat-cell *matCellDef="let element">{{ element.role }}</td>
     </ng-container>
 
+    <ng-container matColumnDef="edit">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let row" style="cursor: pointer">
+        <mat-icon (click)="openDialog(row)">edit</mat-icon>{{ row.row }}
+      </td>
+    </ng-container>
+
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr
       mat-row
@@ -78,7 +85,7 @@
     ></tr>
   </table>
   <mat-paginator
-    [pageSizeOptions]="[10, 25, 100]"
+    [pageSizeOptions]="[10, 25, 50, 100]"
     aria-label="Select page of users"
   ></mat-paginator>
 </div>

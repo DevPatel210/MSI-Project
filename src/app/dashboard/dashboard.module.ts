@@ -13,17 +13,20 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MessagePopUpComponent } from './message-pop-up/message-pop-up.component';
 import { AuthService } from '../services/auth.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptorService } from '../services/token-interceptor.service';
 import { UsersComponent } from './users/users.component';
+import { UpdateDialog } from './users/users.component';
 @NgModule({
   declarations: [
     ProjectListComponent,
     NewUserComponent,
     MessagePopUpComponent,
     UsersComponent,
+    UpdateDialog,
   ],
   imports: [
     CommonModule,
@@ -38,6 +41,7 @@ import { UsersComponent } from './users/users.component';
     MatSnackBarModule,
     MatPaginatorModule,
     MatSortModule,
+    MatDialogModule,
   ],
   providers: [
     AuthService,

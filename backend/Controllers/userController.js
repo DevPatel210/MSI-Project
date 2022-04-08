@@ -166,6 +166,29 @@ class User {
       }
     );
   }
+
+  // ------------------------- Update User -----------------------
+  updateUser(req, res) {
+    const { name, email, employeeID, role } = req.body;
+    if (!name || !email || !employeeID || !role) {
+      return res.status(401).json({ message: "Data is missing" });
+    } else {
+      client.query(
+        `UPDATE users SET name=$1,email=$2,role=$3 where employeeid=$4`,
+        [name, email, role, employeeID],
+        (err, resp) => {
+          if (err) {
+            return res.status(400).json({ message: "Error in DB" });
+          } else {
+            console.log("Updated");
+            return res
+              .status(200)
+              .json({ message: "Data updated successfully" });
+          }
+        }
+      );
+    }
+  }
 }
 
 module.exports = User;

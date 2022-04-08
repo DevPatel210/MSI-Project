@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class UserManagementService {
   private addSingleUserURL = 'http://localhost:3000/user/add-single';
   private getUserURL = 'http://localhost:3000/user/get';
+  private updateUserURL = 'http://localhost:3000/user/update';
 
   constructor(private http: HttpClient) {}
 
@@ -15,5 +16,9 @@ export class UserManagementService {
   }
   getUsers() {
     return this.http.get<any>(this.getUserURL);
+  }
+  updateUser(userData: {}) {
+    console.log(userData);
+    return this.http.put<any>(this.updateUserURL, userData);
   }
 }

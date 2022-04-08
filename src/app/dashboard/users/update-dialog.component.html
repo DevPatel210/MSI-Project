@@ -1,0 +1,62 @@
+<h1 mat-dialog-title>Update User</h1>
+<div mat-dialog-content>
+  <form (ngSubmit)="onSubmit()" name="addUserform" [formGroup]="updateUserForm">
+    <p>Personal Details</p>
+    <mat-form-field appearance="outline" class="col-11">
+      <mat-label>Name</mat-label>
+      <input matInput type="text" formControlName="name" />
+      <mat-error *ngIf="getError('name', 'required')"
+        >Name is <strong>required</strong></mat-error
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="col-11">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" />
+      <mat-error
+        *ngIf="getError('email', 'email') && !getError('email', 'required')"
+      >
+        Please enter a valid email address
+      </mat-error>
+      <mat-error *ngIf="getError('email', 'required')">
+        Email is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <br />
+
+    <p>Employee Details</p>
+
+    <mat-form-field appearance="outline" class="col-11">
+      <mat-label>Employee ID</mat-label>
+      <input matInput type="text" formControlName="employeeID" />
+      <mat-error *ngIf="getError('employeeID', 'required')"
+        >Employee ID is <strong>required</strong></mat-error
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="col-11">
+      <mat-label>Role</mat-label>
+      <mat-select formControlName="role" (change)="changeRole($event)">
+        <mat-option *ngFor="let role of Role" [value]="role">{{
+          role
+        }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="getError('role', 'required')"
+        >Please select a user role</mat-error
+      >
+    </mat-form-field>
+
+    <br />
+
+    <button
+      mat-raised-button
+      color="accent"
+      type="submit"
+      [disabled]="!updateUserForm.valid"
+    >
+      Update User
+    </button>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
+</div>

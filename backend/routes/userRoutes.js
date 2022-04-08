@@ -15,4 +15,8 @@ userRouter.post("/add-single", userController.verifyAdminToken, (req, res) => {
   userController.addSingleUser(req, res);
 });
 
+userRouter.put("/update", userController.verifyAdminToken, (req, res) => {
+  userController.updateUser(req, res);
+});
+
 module.exports = userRouter;
