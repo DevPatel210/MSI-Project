@@ -106,8 +106,38 @@ export class UsersComponent implements OnInit {
     console.log(data);
   }
 
-  displaySelected() {
+  downloadSelected() {
     this._csvService.downloadFile(this.selection.selected, 'users');
+  }
+
+  deleteSelected() {
+    const users = this.selection.selected.map((userData) => {
+      return userData.employeeid;
+    });
+
+    this._userService.deleteUsers(users).subscribe(
+      (res) => {
+        this._notifier.showPopUp('Operation Succesful', res.message, 'success');
+        this._userService.getUsers().subscribe(
+          (res) => {
+            this.dataSource = new MatTableDataSource<Users>(res.data);
+            this.selection = new SelectionModel<Users>(true, []);
+          },
+          (err) => {
+            console.log(err.error);
+            this._notifier.showPopUp(
+              'Error Occurred',
+              err.error.message,
+              'error'
+            );
+          }
+        );
+      },
+      (err) => {
+        console.log(err);
+        this._notifier.showPopUp('Error Occurred', err.error.message, 'error');
+      }
+    );
   }
 
   openDialog(user: {}) {

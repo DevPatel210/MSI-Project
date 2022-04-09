@@ -189,6 +189,27 @@ class User {
       );
     }
   }
+
+  // ------------------------- Delete Users -----------------------
+  deleteUsers(req, res) {
+    const users = req.body.join();
+    console.log(users);
+    client.query(
+      `DELETE from users where employeeid = any(STRING_TO_ARRAY($1,','));`,
+      [users],
+      (err, resp) => {
+        if (err) {
+          console.log(err);
+          return res.status(400).json({ message: "Error in DB" });
+        } else {
+          console.log(resp);
+          return res
+            .status(200)
+            .json({ message: "Users deleted successfully" });
+        }
+      }
+    );
+  }
 }
 
 module.exports = User;

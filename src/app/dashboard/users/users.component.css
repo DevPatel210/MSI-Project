@@ -4,6 +4,9 @@
   align-items: center;
   margin-bottom: 25px;
 }
+.top span :first-child {
+  margin-right: 20px;
+}
 h1 {
   color: #0079c1;
   font-weight: 450;

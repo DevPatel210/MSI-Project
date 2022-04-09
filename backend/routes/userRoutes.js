@@ -19,4 +19,8 @@ userRouter.put("/update", userController.verifyAdminToken, (req, res) => {
   userController.updateUser(req, res);
 });
 
+userRouter.post("/delete", userController.verifyAdminToken, (req, res) => {
+  userController.deleteUsers(req, res);
+});
+
 module.exports = userRouter;

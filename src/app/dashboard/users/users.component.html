@@ -1,14 +1,23 @@
 <div class="top">
   <h1>Users</h1>
-  <button
-    mat-raised-button
-    color="accent"
-    [disabled]="selection.selected.length <= 0"
-    (click)="displaySelected()"
-  >
-    <mat-icon style="margin-right: 3px">file_download</mat-icon>Selected
-    Projects
-  </button>
+  <span>
+    <button
+      mat-raised-button
+      color="accent"
+      [disabled]="selection.selected.length <= 0"
+      (click)="downloadSelected()"
+    >
+      <mat-icon style="margin-right: 3px">file_download</mat-icon>Download Users
+    </button>
+    <button
+      mat-raised-button
+      color="warn"
+      [disabled]="selection.selected.length <= 0"
+      (click)="deleteSelected()"
+    >
+      <mat-icon style="margin-right: 3px">delete</mat-icon>Delete Users
+    </button>
+  </span>
 </div>
 <!-- <hr /> -->
 
