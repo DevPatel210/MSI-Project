@@ -1,0 +1,112 @@
+<div class="top">
+  <h1>Add Single User</h1>
+</div>
+
+<div class="container">
+  <!-- <div class="row"> -->
+  <form
+    (ngSubmit)="onSubmit()"
+    name="addUserform"
+    [formGroup]="addProjectForm"
+    class="row"
+  >
+    <div class="col-6">
+      <p>Project Details</p>
+      <mat-form-field appearance="outline" class="col-11">
+        <mat-label>Project Name</mat-label>
+        <input matInput type="text" formControlName="projectname" />
+        <mat-error *ngIf="getError('projectname', 'required')"
+          >Name is <strong>required</strong></mat-error
+        >
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col-11">
+        <mat-label>Department Code</mat-label>
+        <input matInput type="text" formControlName="deptcode" />
+        <mat-error *ngIf="getError('deptcode', 'required')">
+          Department Code is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <br />
+
+      <!-- <p>Users Details</p> -->
+
+      <mat-form-field appearance="outline" class="col-11">
+        <mat-label>Add Users</mat-label>
+        <mat-chip-list #chipList aria-label="User selection">
+          <mat-chip *ngFor="let user of selectedUsers" (removed)="remove(user)">
+            {{ user }}
+            <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+          <input
+            placeholder="New User..."
+            #userInput
+            formControlName="users"
+            [matAutocomplete]="auto"
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            (matChipInputTokenEnd)="add($event)"
+          />
+        </mat-chip-list>
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          (optionSelected)="selected($event)"
+        >
+          <mat-option *ngFor="let user of filteredUsers | async" [value]="user">
+            {{ user }}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="getError('users', 'required')"
+          >Users are required</mat-error
+        >
+      </mat-form-field>
+      <!-- <p>Product Details</p> -->
+      <mat-form-field appearance="outline" class="col-11">
+        <mat-label>Product</mat-label>
+        <input matInput type="text" formControlName="product" />
+        <mat-error *ngIf="getError('product', 'required')"
+          >Product is <strong>required</strong></mat-error
+        >
+      </mat-form-field>
+    </div>
+    <div class="col-6">
+      <div class="col-11">
+        <p>Status</p>
+        <mat-slide-toggle
+          class="example-margin"
+          color="accent"
+          formControlName="status"
+        >
+          True/False
+        </mat-slide-toggle>
+      </div>
+      <br />
+      <p>CIE Details</p>
+      <mat-form-field appearance="outline" class="col-11">
+        <mat-label>CIE Area ID</mat-label>
+        <input matInput type="number" formControlName="cieareaid" />
+        <mat-error *ngIf="getError('cieareaid', 'required')"
+          >CIE Area ID is <strong>required</strong></mat-error
+        >
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col-11">
+        <mat-label>Finance Product ID</mat-label>
+        <input matInput type="number" formControlName="financeproductid" />
+        <mat-error *ngIf="getError('financeproductid', 'required')"
+          >Finance Product ID is <strong>required</strong></mat-error
+        >
+      </mat-form-field>
+    </div>
+    <button
+      mat-raised-button
+      class="submit"
+      type="submit"
+      [disabled]="!addProjectForm.valid"
+    >
+      Add Project
+    </button>
+  </form>
+  <!-- </div> -->
+</div>

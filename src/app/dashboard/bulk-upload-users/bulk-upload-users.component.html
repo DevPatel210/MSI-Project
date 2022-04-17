@@ -1,0 +1,9 @@
+<p>bulk-upload-users works!</p>
+<input
+  type="file"
+  name="upload-csv"
+  id="upload-csv"
+  accept=".csv,text/csv"
+  (change)="uploadListener($event)"
+  #csvReader
+/>

@@ -20,6 +20,11 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptorService } from '../services/token-interceptor.service';
 import { UsersComponent } from './users/users.component';
 import { UpdateDialog } from './users/users.component';
+import { BulkUploadUsersComponent } from './bulk-upload-users/bulk-upload-users.component';
+import { NewProjectComponent } from './new-project/new-project.component';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 @NgModule({
   declarations: [
     ProjectListComponent,
@@ -27,6 +32,8 @@ import { UpdateDialog } from './users/users.component';
     MessagePopUpComponent,
     UsersComponent,
     UpdateDialog,
+    BulkUploadUsersComponent,
+    NewProjectComponent,
   ],
   imports: [
     CommonModule,
@@ -42,6 +49,9 @@ import { UpdateDialog } from './users/users.component';
     MatPaginatorModule,
     MatSortModule,
     MatDialogModule,
+    MatChipsModule,
+    MatAutocompleteModule,
+    MatSlideToggleModule,
   ],
   providers: [
     AuthService,

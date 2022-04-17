@@ -1,11 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import {
-  ViewChild,
-  Component,
-  OnInit,
-  AfterViewInit,
-  Inject,
-} from '@angular/core';
+import { ViewChild, Component, OnInit, Inject } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -48,8 +42,6 @@ export class UsersComponent implements OnInit {
     private _csvService: CsvDownloadService,
     public dialog: MatDialog
   ) {}
-
-  ngAfterViewInit() {}
 
   ngOnInit(): void {
     this._userService.getUsers().subscribe(

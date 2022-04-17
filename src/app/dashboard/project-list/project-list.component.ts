@@ -1,51 +1,86 @@
-import {SelectionModel} from '@angular/cdk/collections';
-import { Component, OnInit } from '@angular/core';
-import {MatTableDataSource} from '@angular/material/table';
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
+import { SelectionModel } from '@angular/cdk/collections';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { CsvDownloadService } from 'src/app/services/csv-download.service';
+import { NotifierService } from 'src/app/services/notifier.service';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UpdateDialog } from '../users/users.component';
+import { ProjectManagementService } from 'src/app/services/project-management.service';
+import { AuthService } from 'src/app/services/auth.service';
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-  {position: 11, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 12, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 13, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 14, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 15, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 16, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 17, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 18, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 19, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 20, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
+export interface Projects {
+  id: number;
+  projectName: string;
+  deptCode: string;
+  users: [];
+  products: string;
+  status: boolean;
+  createdAt: string;
+  updatedAt: string;
+  cieAreaId: boolean;
+  financeProductId: boolean;
+}
 
 @Component({
   selector: 'app-project-list',
   templateUrl: './project-list.component.html',
-  styleUrls: ['./project-list.component.css']
+  styleUrls: ['./project-list.component.css'],
 })
 export class ProjectListComponent implements OnInit {
+  displayedColumns: string[] = [
+    'select',
+    'id',
+    'projectname',
+    'deptcode',
+    'users',
+    'products',
+    'status',
+    'createdat',
+    'updatedat',
+    'cieareaid',
+    'financeproductid',
+    'edit',
+  ];
+  dataSource = new MatTableDataSource<Projects>();
+  selection = new SelectionModel<Projects>(true, []);
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
-  constructor() { }
-
-  ngOnInit(): void {
+  role: string | null;
+  constructor(
+    private _authService: AuthService,
+    private _projectService: ProjectManagementService,
+    private _notifier: NotifierService,
+    private _csvService: CsvDownloadService,
+    public dialog: MatDialog
+  ) {
+    this.role = this._authService.getRole();
   }
 
-  displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  ngOnInit(): void {
+    this._projectService.getProjects().subscribe(
+      (res) => {
+        this.dataSource = new MatTableDataSource<Projects>(
+          res.data.map((project: any) => {
+            const createdat = project.createdat.substr(0, 10);
+            const updatedat = project.updatedat.substr(0, 10);
+
+            return { ...project, createdat, updatedat };
+          })
+        );
+        this.selection = new SelectionModel<Projects>(true, []);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      },
+      (err) => {
+        console.log(err.error);
+        this._notifier.showPopUp('Error Occurred', err.error.message, 'error');
+      }
+    );
+  }
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -65,11 +100,81 @@ export class ProjectListComponent implements OnInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
+  checkboxLabel(row?: Projects): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
+      row.id
+    }`;
   }
 
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+  editUser(data: {}) {
+    console.log(data);
+  }
+
+  downloadSelected() {
+    this._csvService.downloadFile(this.selection.selected, 'projects');
+  }
+
+  deleteSelected() {
+    const projects = this.selection.selected.map((projectData) => {
+      return projectData.id;
+    });
+
+    this._projectService.deleteProjects(projects).subscribe(
+      (res) => {
+        this._notifier.showPopUp('Operation Succesful', res.message, 'success');
+        this._projectService.getProjects().subscribe(
+          (res) => {
+            this.dataSource = new MatTableDataSource<Projects>(res.data);
+            this.selection = new SelectionModel<Projects>(true, []);
+          },
+          (err) => {
+            console.log(err.error);
+            this._notifier.showPopUp(
+              'Error Occurred',
+              err.error.message,
+              'error'
+            );
+          }
+        );
+      },
+      (err) => {
+        console.log(err);
+        this._notifier.showPopUp('Error Occurred', err.error.message, 'error');
+      }
+    );
+  }
+
+  openDialog(user: {}) {
+    const dialogRef = this.dialog.open(UpdateDialog, { data: user });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this._projectService.getProjects().subscribe(
+        (res) => {
+          this.dataSource = new MatTableDataSource<Projects>(res.data);
+          this.selection = new SelectionModel<Projects>(true, []);
+          console.log('Successful');
+        },
+        (err) => {
+          console.log(err.error);
+          this._notifier.showPopUp(
+            'Error Occurred',
+            err.error.message,
+            'error'
+          );
+        }
+      );
+    });
+  }
 }
