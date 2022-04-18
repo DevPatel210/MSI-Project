@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProjectListComponent } from './project-list/project-list.component';
+import {
+  ProjectListComponent,
+  UpdateProject,
+} from './project-list/project-list.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -34,6 +37,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     UpdateDialog,
     BulkUploadUsersComponent,
     NewProjectComponent,
+    UpdateProject,
   ],
   imports: [
     CommonModule,

@@ -12,9 +12,13 @@ projectRouter.get("/", (req, res) => {
 projectRouter.get("/get", userController.verifyEmployeeToken, (req, res) => {
   projectController.getProjects(req, res);
 });
-projectRouter.get("/get-user", (req, res) => {
-  projectController.getUsers(req, res);
-});
+projectRouter.get(
+  "/get-user",
+  userController.verifyEmployeeToken,
+  (req, res) => {
+    projectController.getUsers(req, res);
+  }
+);
 //
 projectRouter.post(
   "/add-single",

@@ -100,46 +100,42 @@ class Project {
 
   // ------------------------- Update Project -----------------------
   updateProject(req, res) {
-    const { name, email, employeeID, role } = req.body;
+    console.log(req.body);
     const {
       id,
-      projectName,
-      deptCode,
+      projectname,
+      deptcode,
       users,
-      products,
+      product,
       status,
-      createdAt,
-      updatedAt,
-      cieAreaId,
-      financeProductId,
+      cieareaid,
+      financeproductid,
     } = req.body;
     if (
       !id ||
-      !projectName ||
-      !deptCode ||
+      !projectname ||
+      !deptcode ||
       !users ||
-      !products ||
-      status == "" ||
-      !createdAt ||
-      !updatedAt ||
-      !cieAreaId ||
-      !financeProductId
+      !product ||
+      typeof status != "boolean" ||
+      typeof cieareaid != "number" ||
+      typeof financeproductid != "number"
     ) {
       return res.status(401).json({ message: "Data is missing" });
     } else {
+      const updatedat = new Date().toISOString();
       client.query(
-        `UPDATE projects SET projectname=$2,deptcode=$3,users=$4,products=$5,status=$6,createdat=$7,updatedat=$8,cieareaid=$9,financeproductid=$10 where id=$1`,
+        `UPDATE projects SET projectname=$2,deptcode=$3,users=$4,products=$5,status=$6,updatedat=$7,cieareaid=$8,financeproductid=$9 where id=$1`,
         [
           id,
-          projectName,
-          deptCode,
+          projectname,
+          deptcode,
           users,
-          products,
+          product,
           status,
-          createdAt,
-          updatedAt,
-          cieAreaId,
-          financeProductId,
+          updatedat,
+          cieareaid,
+          financeproductid,
         ],
         (err, resp) => {
           if (err) {

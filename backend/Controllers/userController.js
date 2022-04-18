@@ -84,7 +84,7 @@ class User {
       return res.status(401).json({ message: "Unauthorized Access" });
     }
     let { role } = jwt.verify(token, privateKey);
-    if (role != "admin" || role != "manager") {
+    if (role != "admin" && role != "manager") {
       return res.status(401).json({ message: "Unauthorized Access" });
     }
     next();
@@ -99,7 +99,7 @@ class User {
       return res.status(401).json({ message: "Unauthorized Access" });
     }
     let { role } = jwt.verify(token, privateKey);
-    if (role != "admin" || role != "manager" || role != "employee") {
+    if (role != "admin" && role != "manager" && role != "employee") {
       return res.status(401).json({ message: "Unauthorized Access" });
     }
     next();
