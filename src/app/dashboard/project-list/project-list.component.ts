@@ -69,7 +69,6 @@ export class ProjectListComponent {
           res.data.map((project: any) => {
             const createdat = project.createdat.substr(0, 10);
             const updatedat = project.updatedat.substr(0, 10);
-
             return { ...project, createdat, updatedat };
           })
         );

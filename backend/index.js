@@ -1,6 +1,7 @@
 var express = require("express");
 var app = express();
 const cors = require("cors");
+// const fileUpload = require("express-fileupload");
 var router = require("./routes/routes");
 var userRouter = require("./routes/userRoutes");
 var projectRouter = require("./routes/projectRoutes");
@@ -9,7 +10,7 @@ var corsOptions = {
   optionsSuccessStatus: 200, // For legacy browser support
   methods: "GET, PUT, POST",
 };
-
+// app.use(fileUpload());
 app.use(cors(corsOptions));
 app.use(
   express.urlencoded({

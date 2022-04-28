@@ -28,6 +28,7 @@ import { NewProjectComponent } from './new-project/new-project.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { BulkUploadProjectsComponent } from './bulk-upload-projects/bulk-upload-projects.component';
 @NgModule({
   declarations: [
     ProjectListComponent,
@@ -38,6 +39,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     BulkUploadUsersComponent,
     NewProjectComponent,
     UpdateProject,
+    BulkUploadProjectsComponent,
   ],
   imports: [
     CommonModule,

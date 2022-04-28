@@ -21,5 +21,10 @@ export class BulkUploadUsersComponent implements OnInit {
 
   uploadListener($event: any) {
     let file = $event.target.files[0];
+    this._fileService.validateFile(
+      file,
+      ['name', 'email', 'employeeid', 'role', 'password'],
+      'user'
+    );
   }
 }

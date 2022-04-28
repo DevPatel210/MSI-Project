@@ -7,6 +7,7 @@ import { ProjectListComponent } from './dashboard/project-list/project-list.comp
 import { NewUserComponent } from './dashboard/new-user/new-user.component';
 import { UsersComponent } from './dashboard/users/users.component';
 import { BulkUploadUsersComponent } from './dashboard/bulk-upload-users/bulk-upload-users.component';
+import { BulkUploadProjectsComponent } from './dashboard/bulk-upload-projects/bulk-upload-projects.component';
 import { NewProjectComponent } from './dashboard/new-project/new-project.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -46,7 +47,7 @@ const routes: Routes = [
       },
       {
         path: 'addBulkProjects',
-        component: ProjectListComponent,
+        component: BulkUploadProjectsComponent,
         data: { role: ['admin', 'manager'] },
         canActivate: [AuthGuard],
       },

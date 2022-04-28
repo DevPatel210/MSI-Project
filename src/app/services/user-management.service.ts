@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class UserManagementService {
   private addSingleUserURL = 'http://localhost:3000/user/add-single';
+  private addBulkUsersURL = 'http://localhost:3000/user/add-bulk';
   private getUserURL = 'http://localhost:3000/user/get';
   private updateUserURL = 'http://localhost:3000/user/update';
   private deleteUserURL = 'http://localhost:3000/user/delete';
@@ -14,6 +15,9 @@ export class UserManagementService {
 
   addSingleUser(user: {}) {
     return this.http.post<any>(this.addSingleUserURL, user);
+  }
+  addBulkUsers(user: any) {
+    return this.http.post<any>(this.addBulkUsersURL, user);
   }
   getUsers() {
     return this.http.get<any>(this.getUserURL);

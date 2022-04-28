@@ -10,7 +10,6 @@ body {
 }
 .error.mat-snack-bar-container {
   background-color: #ef5653;
-  /* color:black; */
 }
 
 ::-webkit-scrollbar {

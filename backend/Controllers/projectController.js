@@ -3,7 +3,10 @@ const bcrypt = require("bcrypt");
 const client = require("../database/db");
 const jwt = require("jsonwebtoken");
 const { nextTick } = require("process");
+const http = require("http");
 const privateKey = process.env.PRIVATE_KEY;
+const csv = require("fast-csv");
+const { resolve } = require("dns");
 
 class Project {
   constructor() {}
@@ -151,7 +154,7 @@ class Project {
     }
   }
 
-  // ------------------------- Delete Users -----------------------
+  // ------------------------- Delete Projects -----------------------
   deleteProjects(req, res) {
     const projects = req.body;
     console.log(projects);
@@ -170,6 +173,69 @@ class Project {
         }
       }
     );
+  }
+  async runQuery(csvData) {
+    let errorList = [];
+    const query =
+      "insert into projects (projectname,deptcode,users,products,status,cieareaid,financeproductid,createdat,updatedat) VALUES ($1, $2, STRING_TO_ARRAY($3,','), $4, $5, $6, $7, $8, $9)";
+
+    const promises = csvData.map(async (row, ind) => {
+      row.push(new Date().toISOString());
+      row.push(new Date().toISOString());
+      try {
+        const q = await client.query(query, row);
+        return q;
+      } catch (err) {
+        console.log(err.message);
+        errorList.push({ row: ind + 1, message: err.message });
+      }
+    });
+    const q = await Promise.all(promises);
+    // console.log("hello");
+    return errorList;
+  }
+  csvParse(file) {
+    return new Promise((resolve, reject) => {
+      let csvData = [];
+      let csvStream = csv
+        .parse()
+        .on("error", function (err) {
+          reject("Error in parsing csv file. Please try again");
+        })
+        .on("data", function (data) {
+          csvData.push(data);
+        })
+        .on("end", function () {
+          // Remove Header ROW
+          resolve(csvData);
+        });
+      csvStream.write(file, "utf-8");
+      csvStream.end();
+    });
+  }
+  // ------------------------- Add Bulk Projects -----------------------
+  async addBulkProjects(req, res) {
+    // console.log(req.file.buffer.toString("utf-8"));
+    const start = new Date();
+
+    try {
+      const csvData = await this.csvParse(req.file.buffer);
+      csvData.shift();
+      const errorList = await this.runQuery(csvData);
+      console.log(errorList);
+      console.log("Time: ", new Date() - start);
+      if (errorList.length == 0)
+        res.status(201).json({ message: "Data inserted succesfully" });
+      else {
+        res.status(201).json({
+          message:
+            "Some entries were added successfully. Entries with error are shown with error message",
+          errorList: errorList,
+        });
+      }
+    } catch (err) {
+      res.status(400).json({ message: err });
+    }
   }
 }
 

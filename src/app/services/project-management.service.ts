@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ProjectManagementService {
   private addSingleProjectURL = 'http://localhost:3000/project/add-single';
+  private addBulkProjectsURL = 'http://localhost:3000/project/add-bulk';
   private getProjectURL = 'http://localhost:3000/project/get';
   private getUserURL = 'http://localhost:3000/project/get-user';
   private updateProjectURL = 'http://localhost:3000/project/update';
@@ -14,6 +15,11 @@ export class ProjectManagementService {
 
   addSingleProject(projects: {}) {
     return this.http.post<any>(this.addSingleProjectURL, projects);
+  }
+  addBulkProjects(projects: any) {
+    const formData = new FormData();
+    formData.append('file', projects, projects.name);
+    return this.http.post<any>(this.addBulkProjectsURL, formData);
   }
   getProjects() {
     return this.http.get<any>(this.getProjectURL);
