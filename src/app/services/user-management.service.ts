@@ -17,7 +17,9 @@ export class UserManagementService {
     return this.http.post<any>(this.addSingleUserURL, user);
   }
   addBulkUsers(user: any) {
-    return this.http.post<any>(this.addBulkUsersURL, user);
+    const formData = new FormData();
+    formData.append('file', user, user.name);
+    return this.http.post<any>(this.addBulkUsersURL, formData);
   }
   getUsers() {
     return this.http.get<any>(this.getUserURL);

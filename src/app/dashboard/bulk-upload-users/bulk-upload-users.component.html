@@ -1,9 +1,65 @@
-<p>bulk-upload-users works!</p>
-<input
-  type="file"
-  name="upload-csv"
-  id="upload-csv"
-  accept=".csv,text/csv"
-  (change)="uploadListener($event)"
-  #csvReader
-/>
+<div class="top">
+  <h1>Bulk Import Users</h1>
+</div>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-11">
+      <div
+        class="droparea"
+        (dragover)="onDragOver($event)"
+        (drop)="onDrop($event)"
+        (dragleave)="onDragLeave($event)"
+        [class.active]="isActive"
+      >
+        <input
+          type="file"
+          name="upload-csv"
+          class="browse-file"
+          (change)="onSelectedFile($event)"
+          accept=".csv,text/csv"
+          [disabled]="uploading"
+        />
+        <h2>
+          Choose file or <br />
+          Drag and drop file here
+        </h2>
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-center result">
+    <div class="col-md-11">
+      <div class="uploading" *ngIf="uploading">
+        <h2>
+          {{ uploadMessage }}
+        </h2>
+      </div>
+      <div
+        *ngIf="!uploading"
+        class="response"
+        [class.success]="success"
+        [class.error]="error"
+      >
+        <div *ngIf="success">
+          <h2>
+            {{ uploadMessage }}
+          </h2>
+          <table *ngIf="errorList && errorList.length > 0">
+            <tr>
+              <th>Row Number</th>
+              <th>Error Message</th>
+            </tr>
+            <tr *ngFor="let error of errorList">
+              <td>{{ error.row }}</td>
+              <td>{{ error.message }}</td>
+            </tr>
+          </table>
+        </div>
+        <div *ngIf="error">
+          <h2>
+            {{ uploadMessage }}
+          </h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

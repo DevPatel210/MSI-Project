@@ -6,7 +6,6 @@ const { nextTick } = require("process");
 const http = require("http");
 const privateKey = process.env.PRIVATE_KEY;
 const csv = require("fast-csv");
-const { resolve } = require("dns");
 
 class Project {
   constructor() {}
@@ -174,6 +173,31 @@ class Project {
       }
     );
   }
+
+  // ------------------------- Add Bulk Projects -----------------------
+  async addBulkProjects(req, res) {
+    // console.log(req.file.buffer.toString("utf-8"));
+    const start = new Date();
+
+    try {
+      const csvData = await this.csvParse(req.file.buffer);
+      csvData.shift();
+      const errorList = await this.runQuery(csvData);
+      console.log(errorList);
+      console.log("Time: ", new Date() - start);
+      if (errorList.length == 0)
+        res.status(201).json({ message: "Data inserted succesfully" });
+      else {
+        res.status(201).json({
+          message:
+            "Some entries were added successfully. Entries with error are shown with error message",
+          errorList: errorList,
+        });
+      }
+    } catch (err) {
+      res.status(400).json({ message: err });
+    }
+  }
   async runQuery(csvData) {
     let errorList = [];
     const query =
@@ -212,30 +236,6 @@ class Project {
       csvStream.write(file, "utf-8");
       csvStream.end();
     });
-  }
-  // ------------------------- Add Bulk Projects -----------------------
-  async addBulkProjects(req, res) {
-    // console.log(req.file.buffer.toString("utf-8"));
-    const start = new Date();
-
-    try {
-      const csvData = await this.csvParse(req.file.buffer);
-      csvData.shift();
-      const errorList = await this.runQuery(csvData);
-      console.log(errorList);
-      console.log("Time: ", new Date() - start);
-      if (errorList.length == 0)
-        res.status(201).json({ message: "Data inserted succesfully" });
-      else {
-        res.status(201).json({
-          message:
-            "Some entries were added successfully. Entries with error are shown with error message",
-          errorList: errorList,
-        });
-      }
-    } catch (err) {
-      res.status(400).json({ message: err });
-    }
   }
 }
 
